@@ -7,34 +7,35 @@
 import SwiftUI
 
 struct AddHabitView: View {
-    @Environment(\.presentationMode) var presentationMode
-    @Binding var habits: [Habit] // The list of added habits for the user
+    @Binding var habits: [Habit]
+    @Environment(\.dismiss) var dismiss
     @State private var habitName: String = ""
-
+    
     var body: some View {
-        NavigationView {
-            VStack {
-                TextField("Enter habit name", text: $habitName)
-                    .padding()
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-
-                Button(action: { // changed the level to 1 from 0
+        VStack {
+            Text("Add a New Habit")
+                .font(.headline)
+                .padding()
+            
+            TextField("Enter habit name", text: $habitName)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+            
+            Button(action: {
+                if !habitName.isEmpty { // changed level to 1
                     let newHabit = Habit(name: habitName, level: 1, log: [], milestones: [])
                     habits.append(newHabit)
-                    presentationMode.wrappedValue.dismiss()
-                }) {
-                    Text("Add Habit")
-                        .padding()
-                        .background(Color.black)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+                    dismiss()
                 }
-                .padding()
-
-                Spacer()
+            }) {
+                Text("Add Habit")
+                    .padding()
+                    .background(Color.black)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
             }
-            .navigationTitle("Add New Habit")
             .padding()
         }
+        .padding()
     }
 }
